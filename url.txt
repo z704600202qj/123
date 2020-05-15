@@ -1,0 +1,5 @@
+https://charting-library.tradingview.com/
+https://tradingview.gitee.io/featuresets/
+https://zlq4863947.gitbook.io/tradingview/4-tu-biao-ding-zhi/widget-constructor#symbol-interval-mandatory
+https://github.com/tvjsx/trading-vue-js
+
