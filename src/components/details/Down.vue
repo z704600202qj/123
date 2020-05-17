@@ -183,7 +183,7 @@ export default {
           open: this.open.toString(),
           buy_type: 1,
           perc: +this.perc,
-          count: this.count
+          count: this.perc > 0 ? +this.canBuy : this.count
         })
       } else {
         this.$message({ type: 'error', message: '请输入金额' })

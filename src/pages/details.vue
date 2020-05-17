@@ -76,7 +76,9 @@ let heList = {
   }
 }
 var ws = new ReconnectingWebSocket(
-  'ws://eva7base.com:99/coin/quotation',
+  window.location.origin === 'https://www.colaex.pro'
+    ? 'wss://www.colaex.pro/coin/quotation'
+    : 'ws://eva7base.com:99/coin/quotation',
   null,
   { debug: false, reconnectInterval: 3000 }
 )
@@ -143,6 +145,14 @@ export default {
     }
   },
   mounted () {
+    let tokenid2 = localStorage.getItem('info')
+    let { token } = JSON.parse(tokenid2) || { token: '' }
+    if (token) {
+      const data = {
+        token: token
+      }
+      ws.send(JSON.stringify(data))
+    }
     this.from = this.$route.query.from
     let icon = this.$route.query.icon
     if (icon) {
@@ -153,8 +163,6 @@ export default {
     this.createWs()
     this.coinUnit()
 
-    let tokenid2 = localStorage.getItem('info')
-    let { token } = JSON.parse(tokenid2) || { token: '' }
     this.token = token
   },
   watch: {
@@ -162,6 +170,7 @@ export default {
       this.kData = []
     }
   },
+
   methods: {
     createWs () {
       ws.addEventListener('open', () => {
@@ -212,9 +221,19 @@ export default {
     },
     onMessage (e) {
       if (e.asset) {
-        let balance = Number(e.asset.contract.available) + Number(e.asset.contract.entrust) + Number(e.asset.contract.hold)
-        this.assetsobj.contract = {...this.assetsobj.contract, ...e.asset.contract, balance: balance.toFixed(2)}
-        return 2
+        const contract = e.asset.contract ? e.asset.contract : this.assetsobj.contract
+        const balance = e.asset.balance ? e.asset.balance : this.assetsobj.balance
+        let num = Number(e.asset.contract.available) + Number(e.asset.contract.entrust) + Number(e.asset.contract.hold)
+        this.assetsobj.contract = {
+          ...this.assetsobj.contract,
+          ...e.asset.contract,
+          balance: num.toFixed(2)
+        }
+        console.log()
+
+        this.assetsobj.total = (Number(contract.available) + Number(contract.entrust) + Number(contract.hold) +
+        Number(balance.available) + Number(balance.freezeForSell) + Number(balance.freezeForRefound)).toFixed(2)
+        //
       } else if (e.transaction) {
         this.updateData = e.transaction.transaction
       } else {

@@ -8,11 +8,11 @@
       </div>
 
       <div class="btns-right" v-if="selectTab===0">
-        <!-- <div class="account-status" v-if="token&&Object.keys(assets).length>0">
-          <span>持仓总盈亏：-1002 usdt</span>
-          <span>占用保障金：-1002 usdt</span>
-          <span>风险率：-1002 usdt</span>
-        </div>-->
+        <div class="account-status" v-if="token&&Object.keys(assets).length>0&&showBtn">
+          <span>持仓总盈亏：{{objs.income.toFixed(2)||'0.00'}} USDT</span>
+          <span>保证金：{{objs.nowpromises.toFixed(2)||'0.00'}} USDT</span>
+          <span>风险率：{{(((objs.nowpromises+Number(assets.contract.available))/(objs.guPromise)||0)*100).toFixed(2)}}%</span>
+        </div>
         <div class="active div" v-if="showBtn" @click="orderSell({tid:-1})">一键平仓</div>
       </div>
       <div v-if="selectTab===1">
@@ -42,9 +42,8 @@ let obj = {
   2: 'eos',
   3: 'etc',
   4: 'ltc',
-  5: 'bsv',
-  6: 'bch',
-  7: 'xrp'
+  5: 'bch',
+  6: 'xrp'
 }
 const state = {
   0: '持仓中',
@@ -64,6 +63,7 @@ export default {
       page: 1,
       size: 20,
       tableData: [],
+      objs: {},
       token: '',
       showBtn: true
     }
@@ -108,9 +108,33 @@ export default {
           size: 100,
           type: this.selectTab
         })
+        this.tableData = Data.list
+
         this.showBtn = Data.list.length > 0
-        console.log(Data.list.length)
       }
+    }
+  },
+  watch: {
+    updateData: function (e) {
+      let income = 0
+      let nowpromises = 0
+      let guPromise = 0
+      let arr = this.tableData.map(item => {
+        if (item.tid === e.tid) {
+          item.now_promise = e.now_promise
+          item.income = e.signed ? '+' + e.income : '-' + e.income
+        }
+        income += Number(item.income)
+        nowpromises += Number(item.now_promise || 0)
+        guPromise += Number(item.promise)
+        return item
+      })
+      this.objs = {
+        income,
+        nowpromises,
+        guPromise
+      }
+      this.tableData = arr
     }
   }
 }
@@ -147,7 +171,7 @@ export default {
       align-items: center;
     }
     .account-status {
-      margin-right: 10px;
+      margin-right: 20px;
       font-size: 14px;
       font-family: PingFang SC;
       font-weight: 400;

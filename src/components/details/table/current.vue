@@ -1,17 +1,18 @@
 <template>
   <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="coin_type" label="币种">
+    <el-table-column prop="coin_type" label="币种" width="60">
       <template slot-scope="scope">{{type[scope.row.coin_type]}}</template>
     </el-table-column>
-    <el-table-column prop="buy_type" label="类型">
+    <el-table-column prop="buy_type" label="类型" width="70">
       <template slot-scope="scope">{{scope.row.buy_type===1?'买跌':"买涨"}}</template>
     </el-table-column>
     <el-table-column prop="multiple" label="杠杆倍数"></el-table-column>
-    <el-table-column prop="count" label="数量"></el-table-column>
+    <el-table-column prop="count" label="数量" width="60"></el-table-column>
     <el-table-column prop="open" label="开仓价格"></el-table-column>
+    <el-table-column prop="promise" label="占用保证金"  width="120"></el-table-column>
     <el-table-column prop="income" label="盈亏(USDT)" width="120"></el-table-column>
     <el-table-column prop="show_open_date" label="下单时间" width="180"></el-table-column>
-    <el-table-column prop="Low_price" label="手动止损价" width="130">
+    <el-table-column prop="Low_price" label="手动止损价" width="120">
       <template slot-scope="scope">
         <el-input v-if="scope.row.edit" placeholder="止损价" v-model="Low_price">
           <i slot="suffix">
@@ -25,7 +26,7 @@
       </template>
     </el-table-column>
 
-    <el-table-column prop="High_price" label="手动止盈价" width="130">
+    <el-table-column prop="High_price" label="手动止盈价" width="120">
       <template slot-scope="scope">
         <el-input v-if="scope.row.editHeigh" placeholder="止盈价" v-model="High_price">
           <i slot="suffix">
@@ -62,9 +63,8 @@ let obj = {
   2: 'eos',
   3: 'etc',
   4: 'ltc',
-  5: 'bsv',
-  6: 'bch',
-  7: 'xrp'
+  5: 'bch',
+  6: 'xrp'
 }
 export default {
   props: ['list', 'updateData'],
@@ -74,7 +74,8 @@ export default {
       type: obj,
       tableData: [],
       Low_price: '',
-      High_price: ''
+      High_price: '',
+      objs: {}
     }
   },
   mounted () {
@@ -127,12 +128,24 @@ export default {
   },
   watch: {
     updateData: function (e) {
+      let income = 0
+      let nowpromises = 0
+      let guPromise = 0
       let arr = this.tableData.map(item => {
         if (item.tid === e.tid) {
+          item.now_promise = e.now_promise
           item.income = e.signed ? '+' + e.income : '-' + e.income
         }
+        income += Number(item.income)
+        nowpromises += Number(item.now_promise)
+        guPromise += Number(item.promise)
         return item
       })
+      this.objs = {
+        income,
+        nowpromises,
+        guPromise
+      }
       this.tableData = arr
     }
   }

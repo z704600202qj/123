@@ -33,6 +33,8 @@
             action="/"
             :http-request="httpRequest"
             :show-file-list="false"
+              :before-upload="beforeAvatarUpload"
+
           >
             <img v-if="imageUrl" :src="imageUrl" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -64,6 +66,18 @@ export default {
     this.assets()
   },
   methods: {
+    beforeAvatarUpload (file) {
+      const isJPG = file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 png 格式!')
+        return
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
+    },
     select (e) {
       this.selected = e
       this.account = ''

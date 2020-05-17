@@ -2,16 +2,15 @@
   <div class="notice-warp">
     <div class="notice-warp-content">
       <div class="notice-item" v-for="(item) in list" :key="item.id" @click="link(item)">
-        <div>{{item.title}}</div>
+        <div class="titles">{{item.title}}</div>
         <span>{{item.show_create_time}}</span>
       </div>
-        <div class="btn" @click="goto">更多</div>
-
+      <div class="btn" @click="goto">更多</div>
     </div>
   </div>
 </template>
 <script>
-import {announcement} from '../services/index'
+import { announcement } from '../services/index'
 export default {
   data () {
     return {
@@ -30,7 +29,7 @@ export default {
       this.$router.push('/notice')
     },
     async announcement () {
-      let {Data} = await announcement({
+      let { Data } = await announcement({
         page: 1,
         size: 3
       })
@@ -48,14 +47,21 @@ export default {
     margin: 0 auto;
     width: 1200px;
     height: 50px;
-background:rgba(249,249,249,1);
+    background: rgba(249, 249, 249, 1);
     &-content {
       display: flex;
       align-items: center;
       justify-content: space-around;
       width: 1160px;
     }
+    .titles {
+      max-width: 350px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
+
   &-item {
     display: flex;
     align-items: center;

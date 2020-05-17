@@ -37,7 +37,8 @@
           <template slot-scope="scope">{{type[scope.row.type]}}</template>
         </el-table-column>
         <el-table-column prop="withdraw_addr" label="提现地址"></el-table-column>
-        <el-table-column prop="amount" label="操作的币数量"></el-table-column>
+        <el-table-column prop="amount" label="操作的币数量">
+        </el-table-column>
         <el-table-column prop="fee" label="手续费"></el-table-column>
         <el-table-column prop="show_operate_date" label="操作时间" width="180"></el-table-column>
         <el-table-column prop="state" label="状态" width="100">

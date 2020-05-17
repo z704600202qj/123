@@ -9,28 +9,44 @@
           <div class="title" v-if="type==='forget'">找回密码</div>
           <div class="item">
             <div class="label">账号</div>
-            <el-input v-model="phone" placeholder="请输入手机号" prefix-icon="el-icon-user"></el-input>
+            <el-input
+              v-model="phone"
+              auto-complete="off"
+              type="text"
+              name="phone"
+              placeholder="请输入手机号"
+              prefix-icon="el-icon-user"
+            ></el-input>
           </div>
           <div class="item">
             <div class="label">{{type==='forget'?'新密码':'密码'}}</div>
             <el-input
               v-model="pwd"
+              name="password"
               type="password"
               placeholder="请输入8-20位的密码"
               prefix-icon="el-icon-unlock"
+              auto-complete="off"
             ></el-input>
-            <div style="color:red" v-if='this.pwd&&!this.pwd.match(/(?=.*[0-9])[a-zA-Z0-9]{8,20}/)'>请输入正确密码格式</div>
+            <div
+              style="color:red"
+              v-if="this.pwd&&!this.pwd.match(/(?=.*[0-9])[a-zA-Z0-9]{8,20}/)"
+            >请输入正确密码格式</div>
           </div>
           <div class="item" v-if="type==='forget'">
             <div class="label">确认新密码</div>
             <el-input
               v-model="pwd_new_repeat"
               type="password"
+              name="pwd_new_repeat"
+              auto-complete="off"
               placeholder="请确认新密码"
               prefix-icon="el-icon-unlock"
             ></el-input>
-            <div v-if='this.pwd_new_repeat&&this.pwd_new_repeat==this.pwd' style="color:red">两次输入密码不匹配</div>
-
+            <div
+              v-if="this.pwd_new_repeat&&this.pwd_new_repeat!==this.pwd"
+              style="color:red"
+            >两次输入密码不匹配</div>
           </div>
           <div class="item" v-if="type!=='login'">
             <div class="label">验证码</div>

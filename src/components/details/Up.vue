@@ -175,7 +175,7 @@ export default {
           open: this.open.toString(),
           buy_type: 0,
           perc: +this.perc,
-          count: this.count
+          count: this.perc > 0 ? +this.canBuy : this.count
         })
         this.$emit('reload')
         this.$parent.assets()

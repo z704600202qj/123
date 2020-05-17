@@ -41,7 +41,7 @@
         </div>
         <PayTip />
       </div>
-      <div class="right">
+      <div class="right" @click="opens">
         <img src="../assets/image/avatar.png" alt />
         <div class="nick-name">用户10393</div>
         <div class="name">邓雨</div>
@@ -68,6 +68,9 @@ export default {
     this.otcDetail()
   },
   methods: {
+    opens () {
+      window.open('https://chat.livechatvalue.com/chat/chatClient/chatbox.jsp?companyID=1415271&configID=110509&jid=3002128586&s=1')
+    },
     async otcDetail () {
       const tid = this.$route.query.tid
       let data = await otcDetail({ tid: tid })

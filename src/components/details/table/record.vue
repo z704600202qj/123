@@ -13,11 +13,12 @@
       <el-table-column prop="open" label="开仓价格"></el-table-column>
       <el-table-column prop="income" label="盈亏"></el-table-column>
       <el-table-column prop="fee" label="手续费"></el-table-column>
-      <el-table-column prop="open_date" label="开仓时间"></el-table-column>
-      <el-table-column prop="delivery_date" label="平仓时间"></el-table-column>
+    <el-table-column prop="promise" label="占用保证金"  width="120"></el-table-column>
+      <el-table-column prop="show_open_date" label="开仓时间"></el-table-column>
+      <el-table-column prop="show_delivery_date" label="平仓时间"></el-table-column>
       <el-table-column prop="low" label="止损价格"></el-table-column>
       <el-table-column prop="high" label="止盈价格"></el-table-column>
-      <el-table-column prop="state" label="状态">
+      <el-table-column prop="state" label="状态" width="120">
         <template slot-scope="scope">{{state[scope.row.state]}}</template>
       </el-table-column>
     </el-table>
@@ -32,10 +33,10 @@ import { orderList } from '../../../services/index'
 const state = {
   0: '委托单',
   1: '持仓单',
-  2: '已平仓',
-  3: '手动平仓',
+  2: '手动平仓',
+  3: '系统强制平仓',
   4: '手动撤销',
-  5: '系统撤销',
+  5: '系统撤销'
 }
 let obj = {
   0: 'btc',
@@ -43,9 +44,8 @@ let obj = {
   2: 'eos',
   3: 'etc',
   4: 'ltc',
-  5: 'bsv',
-  6: 'bch',
-  7: 'xrp'
+  5: 'bch',
+  6: 'xrp'
 }
 export default {
   data () {
@@ -72,10 +72,14 @@ export default {
           size: 10,
           type: 2
         })
-        console.log(Data.list)
         this.total = Data.total
-
-        this.tableData = Data.list
+        let arr = Data.list.map(item => {
+          if (item.income > 0) {
+            item.income = item.signed ? '+' + item.income : '-' + item.income
+          }
+          return item
+        })
+        this.tableData = arr
       }
     }
   }

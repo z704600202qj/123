@@ -27,14 +27,14 @@
       <div>
         <el-table :data="tableData" style="width: 100%">
           <el-table-column prop="tid" label="订单编号"></el-table-column>
-          <el-table-column prop="merchant_id" label="商户id">
+          <el-table-column prop="merchant_name" label="商户名称">
 
           </el-table-column>
-          <el-table-column prop="payMethod" label="付款方式">
+          <!-- <el-table-column prop="payMethod" label="付款方式">
              <template slot-scope="scope">
               {{payMethod[scope.row.payMethod]}}
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column prop="state" label="订单状态">
              <template slot-scope="t">
               <div v-bind:style="{ color: (t.row.type !== 0 && t.row.state ==4)?'#1ec086':'' }" @click="configs(t.row.type !== 0 && t.row.state ==4,t.row)">
@@ -114,6 +114,9 @@ export default {
     },
     async units () {
       let unit = await coinUnit()
+      unit.Data.merchant_buy = (+unit.Data.merchant_buy).toFixed(2)
+      unit.Data.merchant_sell = (+unit.Data.merchant_sell).toFixed(2)
+      unit.Data.usdtcny = (+unit.Data.usdtcny).toFixed(2)
       this.unit = unit.Data
     },
     async assets () {

@@ -44,11 +44,11 @@
         </div>
         <div class="row">
           <div class="col">成交数量：</div>
-          <div class="col black">{{selectSell==='num'?values||0:values/unit.usdtcny||0}} USDT</div>
+          <div class="col black">{{selectSell==='num'?values||0:(values/unit.merchant_sell).toFixed(2)||0}} USDT</div>
         </div>
         <div class="row">
           <div class="col">实付金额：</div>
-          <div class="col black">{{selectSell==='num'?unit.usdtcny*values||0:values||0}} CNY</div>
+          <div class="col black">{{selectSell==='num'?(unit.usdtcny*values).toFixed(2)||0:values||0}} CNY</div>
         </div>
       </div>
     </div>
@@ -110,7 +110,7 @@ export default {
     async pass () {
       let obj = this.selectSell === 'account'
         ? { curreny: Number(this.values) }
-        : { amount: this.values+'' }
+        : { amount: this.values + '' }
       let num = this.selectBuy === 'account' ? this.values / this.unit.merchant_buy : this.values
       if (num >= 100 && num <= 10000) {
         let data = await otcSell({

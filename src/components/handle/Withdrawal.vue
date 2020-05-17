@@ -70,7 +70,7 @@ export default {
         await withdraw({
           address: this.address,
           chan: this.select,
-          amount: (this.amount - this.sellpay).toString()
+          amount: (this.amount).toString()
         })
         this.$emit('reload')
       }

@@ -34,9 +34,13 @@ import PlatformData from '@/components/Data'
 import DownLoad from '@/components/DownLoad'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 
-import { assets, coinUnit, banner, coins } from '@/services'
+import { coinUnit, banner, coins } from '@/services'
 import newWs from '../utils/newWs'
-var ws = new ReconnectingWebSocket('ws://eva7base.com:99/coin/quotation', null, {debug: false, reconnectInterval: 3000})
+var ws = new ReconnectingWebSocket(
+  window.location.origin === 'https://www.colaex.pro'
+    ? 'wss://www.colaex.pro/coin/quotation'
+    : 'ws://eva7base.com:99/coin/quotation',
+  null, {debug: false, reconnectInterval: 3000})
 
 export default {
   name: 'Home',

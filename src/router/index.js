@@ -17,6 +17,8 @@ import moreNew from '@/pages/moreNew'
 import rules from '@/pages/rules'
 import about from '@/pages/about'
 import newhelp from '@/pages/newhelp'
+import forget from '@/pages/forget'
+import register from '@/pages/register'
 
 Vue.use(Router)
 
@@ -40,12 +42,12 @@ let router = new Router({
     {
       path: '/forget',
       name: 'forget',
-      component: login
+      component: forget
     },
     {
       path: '/register',
       name: 'register',
-      component: login
+      component: register
     },
     {
       path: '/setting',

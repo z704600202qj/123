@@ -9,6 +9,7 @@
     <el-table-column prop="multiple" label="杠杆倍数"></el-table-column>
     <el-table-column prop="count" label="数量"></el-table-column>
     <el-table-column prop="open" label="委托价格"></el-table-column>
+    <el-table-column prop="promise" label="占用保证金"  width="120"></el-table-column>
     <el-table-column prop="show_open_date" label="委托时间" width="180"></el-table-column>
 
     <el-table-column prop="state" label="状态">
@@ -36,9 +37,8 @@ let obj = {
   2: 'eos',
   3: 'etc',
   4: 'ltc',
-  5: 'bsv',
-  6: 'bch',
-  7: 'xrp'
+  5: 'bch',
+  6: 'xrp'
 }
 export default {
   data () {

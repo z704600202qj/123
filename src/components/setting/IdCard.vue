@@ -7,55 +7,49 @@
         <div>
           <div class="form-item">
             <el-upload
-            :disabled="disabled"
+              :disabled="disabled"
               class="avatar-uploader"
               action="/"
               :http-request="httpRequestFont"
               :show-file-list="false"
+              :before-upload="beforeAvatarUpload"
             >
-              <img v-if="font" :src="baseurl+font" class="avatar" />
+              <img v-if="font" :src="font" class="avatar" />
               <img v-else src="../../assets/image/idfont.png" alt />
             </el-upload>
           </div>
 
           <div class="form-item" style="marginTop:8px ">
             <el-upload
-            :disabled="disabled"
+              :disabled="disabled"
               class="avatar-uploader"
               action="/"
               :http-request="httpRequestBack"
               :show-file-list="false"
+              :before-upload="beforeAvatarUpload"
             >
-              <img v-if="back" :src="baseurl+back" class="avatar" />
+              <img v-if="back" :src="back" class="avatar" />
               <img v-else src="../../assets/image/idback.png" alt />
-            </el-upload>
-            上传身份证正反面
+            </el-upload>上传身份证正反面
           </div>
         </div>
-          <div class="form-item idandcard" >
-            <el-upload
-              class="avatar-uploader"
-              action="/"
+        <div class="form-item idandcard">
+          <el-upload
+            class="avatar-uploader"
+            action="/"
             :disabled="disabled"
-
-              :http-request="httpRequestPortrait"
-              :show-file-list="false"
-            >
-              <img v-if="portrait" :src="baseurl+portrait" class="avatar" />
-              <img v-else  src="../../assets/image/idandphone.png" alt />
-            </el-upload>
-            上传手持身份证照
-          </div>
+            :http-request="httpRequestPortrait"
+            :show-file-list="false"
+            :before-upload="beforeAvatarUpload"
+          >
+            <img v-if="portrait" :src="portrait" class="avatar" />
+            <img v-else src="../../assets/image/idandphone.png" alt />
+          </el-upload>上传手持身份证照
+        </div>
       </div>
       <div class="form-input">
         <div class="item">
-          <Cinput
-            :disabled="disabled"
-
-            label="姓名"
-            v-model="name"
-            placeholder="请输入姓名"
-          />
+          <Cinput :disabled="disabled" label="姓名" v-model="name" placeholder="请输入姓名" />
         </div>
         <!-- <div class="item">
           <Cinput
@@ -64,17 +58,12 @@
             v-model="location"
             placeholder="请输入住址"
           />
-        </div> -->
+        </div>-->
         <div class="item">
-          <Cinput
-            :disabled="disabled"
-            label="身份证号"
-            v-model="id"
-            placeholder="请输入身份证号"
-          />
+          <Cinput :disabled="disabled" label="身份证号" v-model="id" placeholder="请输入身份证号" />
         </div>
       </div>
-      <div class="btn"  @click="veri">提交认证</div>
+      <div class="btn" @click="veri">提交认证</div>
     </div>
   </div>
 </template>
@@ -86,7 +75,10 @@ import { veri, infoveri } from '../../services/index'
 export default {
   data () {
     return {
-      baseurl: window.location.host === 'https://colaex.pro' ? 'https://colaex.pro/img/' : 'http://eva7base.com:88/test/',
+      baseurl:
+        window.location.host === 'https://colaex.pro'
+          ? 'https://colaex.pro/img/'
+          : 'http://eva7base.com:88/test/',
       name: '',
       font: '',
       back: '',
@@ -101,6 +93,18 @@ export default {
     this.infoveri()
   },
   methods: {
+    beforeAvatarUpload (file) {
+      const isJPG = file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 png 格式!')
+        return
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
+    },
     async infoveri () {
       let { Data } = await infoveri({})
       const { location, id, name, a, b, portrait } = Data
@@ -109,9 +113,9 @@ export default {
       this.location = location
       this.id = id
       this.name = name
-      this.font = a
-      this.back = b
-      this.portrait = portrait
+      this.font = this.baseurl + a
+      this.back = this.baseurl + b
+      this.portrait = this.baseurl + portrait
     },
     async veri () {
       await veri({
@@ -177,8 +181,8 @@ export default {
       color: rgba(51, 51, 51, 1);
       line-height: 37px;
     }
-    .idandcard{
-      img{
+    .idandcard {
+      img {
         width: 251.4px;
         height: 301.3px;
       }
@@ -208,17 +212,17 @@ export default {
     }
     .btn {
       cursor: pointer;
-    margin: 60px auto;
-    width: 750px;
-    height: 56px;
-    line-height: 56px;
-    text-align: center;
-    background: #318AFD;
-    border-radius: 2px;
-    font-size: 20px;
-    font-family: PingFang SC;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 1);
+      margin: 60px auto;
+      width: 750px;
+      height: 56px;
+      line-height: 56px;
+      text-align: center;
+      background: #318afd;
+      border-radius: 2px;
+      font-size: 20px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 1);
     }
   }
 }
