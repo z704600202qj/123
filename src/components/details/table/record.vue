@@ -14,8 +14,16 @@
       <el-table-column prop="income" label="盈亏"></el-table-column>
       <el-table-column prop="fee" label="手续费"></el-table-column>
     <el-table-column prop="promise" label="占用保证金"  width="120"></el-table-column>
-      <el-table-column prop="show_open_date" label="开仓时间"></el-table-column>
-      <el-table-column prop="show_delivery_date" label="平仓时间"></el-table-column>
+      <el-table-column prop="show_open_date" label="开仓时间">
+       <template slot-scope="scope">
+        {{scope.row.state!==4&&scope.row.state!==5?scope.row.show_open_date:''}}
+       </template>
+      </el-table-column>
+      <el-table-column prop="show_delivery_date" label="平仓时间">
+         <template slot-scope="scope">
+        {{scope.row.state!==4&&scope.row.state!==5?scope.row.show_delivery_date:''}}
+         </template>
+      </el-table-column>
       <el-table-column prop="low" label="止损价格"></el-table-column>
       <el-table-column prop="high" label="止盈价格"></el-table-column>
       <el-table-column prop="state" label="状态" width="120">

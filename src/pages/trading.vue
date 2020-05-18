@@ -17,7 +17,7 @@
         </el-tabs>
       </div>
       <div class="right">
-        <component v-bind:is="select" :payMethods='payMethods' :unit='unit' @reload='reload'></component>
+        <component v-bind:is="select" :payMethods="payMethods" :unit="unit" @reload="reload"></component>
       </div>
     </div>
     <div class="tables">
@@ -27,66 +27,64 @@
       <div>
         <el-table :data="tableData" style="width: 100%">
           <el-table-column prop="tid" label="订单编号"></el-table-column>
-          <el-table-column prop="merchant_name" label="商户名称">
-
-          </el-table-column>
+          <el-table-column prop="merchant_name" label="商户名称"></el-table-column>
           <!-- <el-table-column prop="payMethod" label="付款方式">
              <template slot-scope="scope">
               {{payMethod[scope.row.payMethod]}}
             </template>
-          </el-table-column> -->
+          </el-table-column>-->
           <el-table-column prop="state" label="订单状态">
-             <template slot-scope="t">
-              <div v-bind:style="{ color: (t.row.type !== 0 && t.row.state ==4)?'#1ec086':'' }" @click="configs(t.row.type !== 0 && t.row.state ==4,t.row)">
-
-              {{((t.row.type == 0 && t.row.state ==4) || (t.row.type == 1 && t.row.state == 3))?'完结':
-              state[t.row.state]
-
-              }}
-              </div>
+            <template slot-scope="t">
+              <div
+                v-bind:style="{ color: (t.row.type !== 0 && t.row.state ==4)||( t.row.state ==0)?'#1ec086':'' }"
+                @click="configs(t,t.row)"
+              >{{((t.row.type == 0 && t.row.state ==4) || (t.row.type == 1 && t.row.state == 3))?'完结':state[t.row.state]}}</div>
             </template>
           </el-table-column>
           <el-table-column prop="type" label="类型">
-            <!--  -->
-            <template slot-scope="scope">
-              {{scope.row.type===0?'买单':'卖单'}}
-            </template>
+            <template slot-scope="scope">{{scope.row.type===0?'买单':'卖单'}}</template>
           </el-table-column>
 
           <el-table-column prop="amount" label="USDT数量"></el-table-column>
           <el-table-column prop="curreny" label="人民币价格"></el-table-column>
           <el-table-column prop="show_created_on" label="创建时间" width="180"></el-table-column>
           <el-table-column prop="show_update_on" label="更新时间" width="180"></el-table-column>
-          <!-- <el-table-column  label="状态" width="80"> -->
-             <!-- <template slot-scope="t"> -->
-              <!-- {{'完结':'卖单'}} -->
-            <!-- </template> -->
-          <!-- </el-table-column> -->
 
+          <!-- <el-table-column prop="type" label="操作">
+            <template slot-scope="scope">
+              {{scope.row.type===0?'买单':'卖单'}}
+            </template>
+          </el-table-column>-->
         </el-table>
         <div class="pagination-warp">
-          <el-pagination background :page-size="pageSize" layout="prev, pager, next, jumper" :total="total"  @current-change="handleCurrentChange"></el-pagination>
+          <el-pagination
+            background
+            :page-size="pageSize"
+            layout="prev, pager, next, jumper"
+            :total="total"
+            @current-change="handleCurrentChange"
+          ></el-pagination>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import Buy from '@/components/trading/Buy'
-import Sell from '@/components/trading/Sell'
-import Tables from '@/components/Tables'
+import Buy from '@/components/trading/Buy';
+import Sell from '@/components/trading/Sell';
+import Tables from '@/components/Tables';
 // user/otc/transactions
-import {assets, transactions, coinUnit, otcConfirm} from '@/services'
+import { assets, transactions, coinUnit, otcConfirm } from '@/services';
 
 export default {
   data () {
     return {
-      payMethod: {0: '微信', 1: '支付宝', 2: '银行'},
+      payMethod: { 0: '微信', 1: '支付宝', 2: '银行' },
       state: {
         0: '交易中',
         1: '用户取消',
         2: '系统取消',
-        3: '交易成功',
+        3: '支付成功',
         4: '商家确认'
       },
       tableData: [],
@@ -104,12 +102,22 @@ export default {
     this.units()
   },
   methods: {
-    reload  () {
-    },
-    async  configs (e, data) {
-      if (e) {
+    reload () {},
+    async configs (t, data) {
+      if (t.row.type !== 0 && t.row.state === 4) {
         await otcConfirm({ tid: data.tid })
         await this.getList()
+      } else if (
+        (t.row.type === 0 && t.row.state === 4) ||
+        (t.row.type === 1 && t.row.state === 3)
+      ) {
+      } else if (t.row.state === 0) {
+        this.$router.push({
+          path: '/buy',
+          query: {
+            tid: data.tid
+          }
+        })
       }
     },
     async units () {
@@ -120,7 +128,7 @@ export default {
       this.unit = unit.Data
     },
     async assets () {
-      let {Data} = await assets()
+      let { Data } = await assets()
       this.payMethods = Data.payMethods
     },
     handleCurrentChange (e) {
@@ -131,7 +139,10 @@ export default {
       this.select = e.name
     },
     async getList () {
-      let {Data} = await transactions({ page: this.page, size: this.pageSize })
+      let { Data } = await transactions({
+        page: this.page,
+        size: this.pageSize
+      })
       this.tableData = Data.list
       this.total = Data.total
     }
@@ -150,7 +161,7 @@ export default {
   width: 100%;
   margin-top: 20px;
   /deep/.el-pagination.is-background .el-pager li:not(.disabled).active {
-    background-color: #318AFD;
+    background-color: #318afd;
   }
 }
 .setting-warp {
@@ -184,11 +195,11 @@ export default {
       width: 260px;
       .el-tabs__active-bar {
         height: 50px;
-        background-color: #318AFD;
+        background-color: #318afd;
         width: 5px;
       }
       .el-tabs__item.is-active {
-        color: #318AFD;
+        color: #318afd;
         background: rgba(243, 245, 249, 1);
       }
       .el-tabs__nav-wrap::after {
@@ -234,7 +245,7 @@ export default {
       margin-right: 10px;
       width: 4px;
       height: 14px;
-      background: #318AFD;
+      background: #318afd;
       border-radius: 2px;
     }
   }

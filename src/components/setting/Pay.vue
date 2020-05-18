@@ -25,7 +25,7 @@
         </div>
         <!-- <div class="item" v-if="selected===0">
           <Cinput v-model="account" label="微信账号" placeholder="请输入微信账号" />
-        </div> -->
+        </div>-->
         <div class="item upload" v-if="selected!==2">
           上传收款码
           <el-upload
@@ -33,28 +33,35 @@
             action="/"
             :http-request="httpRequest"
             :show-file-list="false"
-              :before-upload="beforeAvatarUpload"
-
+            :before-upload="beforeAvatarUpload"
           >
             <img v-if="imageUrl" :src="imageUrl" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>
       </div>
-      <div class="btn" @click="submit">确定</div>
-      <div class="btn1" @click="paycancel">解绑</div>
-
+      <div class="btn"  v-if="info.length===0" @click="submit">确定</div>
+      <div class="btn1" v-if="info.length>0" @click="paycancel">解绑</div>
     </div>
   </div>
 </template>
 <script>
 import Cinput from './Input'
-import {payBank, payAli, payWx, assets, paycancel} from '../../services/index'
+import {
+  payBank,
+  payAli,
+  payWx,
+  assets,
+  paycancel
+} from '../../services/index'
 
 export default {
   data () {
     return {
-      baseurl: window.location.host === 'https://colaex.pro' ? 'https://colaex.pro/img/' : 'http://eva7base.com:88/test/',
+      baseurl:
+        window.location.host === 'https://colaex.pro'
+          ? 'https://colaex.pro/img/'
+          : 'http://eva7base.com:88/test/',
       imageUrl: '',
       selected: 2,
       account: '',
@@ -90,9 +97,8 @@ export default {
       })
     },
     async paycancel () {
-      console.log(this.info)
       if (this.info.length > 0) {
-        await paycancel({type: this.selected, id: this.info[0].id})
+        await paycancel({ type: this.selected, id: this.info[0].id })
         await this.assets()
       } else {
         this.$message.error('请绑定信息')
@@ -106,25 +112,28 @@ export default {
           return item
         }
       })
-      console.log(this.info)
     },
-    async submit  () {
+    async submit () {
       if (this.selected === 2) {
-        await payBank({account: this.account, location: this.location})
+        await payBank({ account: this.account, location: this.location })
       }
       if (this.selected === 1) {
-        await payAli({account: this.account, qr: this.imageUrl})
+        await payAli({ account: this.account, qr: this.imageUrl })
       }
       if (this.selected === 0) {
-        await payWx({account: this.account, qr: this.imageUrl})
+        await payWx({ account: this.account, qr: this.imageUrl })
       }
+      await this.assets()
     },
     httpRequest (event) {
+      const {type} = event.file
       let reader = new FileReader()
       let file = event.file
       reader.readAsDataURL(file)
-      reader.onload = (e) => {
-        this.imageUrl = e.target.result
+      reader.onload = e => {
+        if (type === 'image/png') {
+          this.imageUrl = e.target.result
+        }
       }
     }
   },
@@ -148,7 +157,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .overview-warp {
- padding: 20px 40px;
+  padding: 20px 40px;
   font-size: 20px;
   font-family: PingFang SC;
   font-weight: 500;
@@ -182,7 +191,7 @@ export default {
     }
 
     .active {
-      border: 2px solid #318AFD;
+      border: 2px solid #318afd;
     }
   }
   .form-input {
@@ -230,15 +239,15 @@ export default {
     height: 56px;
     line-height: 56px;
     text-align: center;
-    background: #318AFD;
+    background: #318afd;
     border-radius: 2px;
     font-size: 20px;
     font-family: PingFang SC;
     font-weight: 500;
     color: rgba(255, 255, 255, 1);
   }
-  .btn1{
-     cursor: pointer;
+  .btn1 {
+    cursor: pointer;
     margin: 0px auto;
     width: 750px;
     height: 56px;

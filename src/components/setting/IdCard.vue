@@ -63,7 +63,8 @@
           <Cinput :disabled="disabled" label="身份证号" v-model="id" placeholder="请输入身份证号" />
         </div>
       </div>
-      <div class="btn" @click="veri">提交认证</div>
+      <div v-if="veriInfo.state===0" class="disbtn">待审核</div>
+      <div v-if="veriInfo.state!==0&&veriInfo.state!==1" class="btn" @click="veri">实名认证</div>
     </div>
   </div>
 </template>
@@ -129,27 +130,36 @@ export default {
       await this.infoveri()
     },
     httpRequestFont (event) {
+      const {type} = event.file
       let reader = new FileReader()
       let file = event.file
       reader.readAsDataURL(file)
       reader.onload = e => {
-        this.font = e.target.result
+        if (type === 'image/png') {
+          this.font = e.target.result
+        }
       }
     },
     httpRequestBack (event) {
+      const {type} = event.file
       let reader = new FileReader()
       let file = event.file
       reader.readAsDataURL(file)
       reader.onload = e => {
-        this.back = e.target.result
+        if (type === 'image/png') {
+          this.back = e.target.result
+        }
       }
     },
     httpRequestPortrait (event) {
+      const {type} = event.file
       let reader = new FileReader()
       let file = event.file
       reader.readAsDataURL(file)
       reader.onload = e => {
-        this.portrait = e.target.result
+        if (type === 'image/png') {
+          this.portrait = e.target.result
+        }
       }
     }
   },
@@ -218,6 +228,20 @@ export default {
       line-height: 56px;
       text-align: center;
       background: #318afd;
+      border-radius: 2px;
+      font-size: 20px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 1);
+    }
+    .disbtn{
+       cursor: pointer;
+      margin: 60px auto;
+      width: 750px;
+      height: 56px;
+      line-height: 56px;
+      text-align: center;
+      background: #ccc;
       border-radius: 2px;
       font-size: 20px;
       font-family: PingFang SC;

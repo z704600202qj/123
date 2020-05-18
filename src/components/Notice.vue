@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     link (e) {
-      let url = e.link + e.id
+      let url = 'http://eva7base.com:99/coin/announcement/detail?id=' + e.id
       window.open(url)
     },
     goto () {

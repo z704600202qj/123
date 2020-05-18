@@ -126,7 +126,7 @@ export default {
     },
     buy () {
       if (this.values > 0) {
-        this.dialogShow = true
+        this.pass(true)
       } else {
         this.$message.error('请输入正确数字')
       }
