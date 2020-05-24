@@ -15,7 +15,7 @@
           <img src="../assets/image/a.png" alt /> Android版
         </div>
         <div class="qr-border">
-          <img class="qr" src="../assets/image/iosqr.png" alt />
+          <img class="qr" src="../assets/image/aqr.png" style="height:110px; width:110px;margin:0" alt />
         </div>
         <div class="btns">扫码下载</div>
       </div>

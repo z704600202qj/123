@@ -1,18 +1,18 @@
 <template>
   <div>
     <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="coin_type" label="币种">
+      <el-table-column prop="coin_type" label="币种" width="60">
         <template slot-scope="scope">{{type[scope.row.coin_type]}}</template>
       </el-table-column>
 
-         <el-table-column prop="buy_type" label="类型">
+         <el-table-column prop="buy_type" label="类型" width="60">
       <template slot-scope="scope">{{scope.row.buy_type===1?'买跌':"买涨"}}</template>
     </el-table-column>
-      <el-table-column prop="multiple" label="杠杆倍数"></el-table-column>
-      <el-table-column prop="count" label="数量"></el-table-column>
-      <el-table-column prop="open" label="开仓价格"></el-table-column>
-      <el-table-column prop="income" label="盈亏"></el-table-column>
-      <el-table-column prop="fee" label="手续费"></el-table-column>
+      <el-table-column prop="multiple" label="杠杆倍数" width="80"></el-table-column>
+      <el-table-column prop="count" label="数量" width="60"></el-table-column>
+      <el-table-column prop="open" label="开仓价格" width="80"></el-table-column>
+      <el-table-column prop="income" label="盈亏" width="80"></el-table-column>
+      <el-table-column prop="fee" label="手续费" width="80"></el-table-column>
     <el-table-column prop="promise" label="占用保证金"  width="120"></el-table-column>
       <el-table-column prop="show_open_date" label="开仓时间">
        <template slot-scope="scope">
@@ -24,8 +24,10 @@
         {{scope.row.state!==4&&scope.row.state!==5?scope.row.show_delivery_date:''}}
          </template>
       </el-table-column>
-      <el-table-column prop="low" label="止损价格"></el-table-column>
-      <el-table-column prop="high" label="止盈价格"></el-table-column>
+      <el-table-column prop="low" label="止损价格" width="80"></el-table-column>
+      <el-table-column prop="high" label="止盈价格" width="80"></el-table-column>
+      <el-table-column prop="close" label="平仓价格" width="80"></el-table-column>
+      <el-table-column prop="show_delivery_date" label="平仓时间" ></el-table-column>
       <el-table-column prop="state" label="状态" width="120">
         <template slot-scope="scope">{{state[scope.row.state]}}</template>
       </el-table-column>

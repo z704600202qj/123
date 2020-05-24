@@ -229,7 +229,6 @@ export default {
           ...e.asset.contract,
           balance: num.toFixed(2)
         }
-        console.log()
 
         this.assetsobj.total = (Number(contract.available) + Number(contract.entrust) + Number(contract.hold) +
         Number(balance.available) + Number(balance.freezeForSell) + Number(balance.freezeForRefound)).toFixed(2)
@@ -253,6 +252,7 @@ export default {
           low: bchusdtwarp.tick.low.toFixed(2),
           close: bchusdtwarp.tick.close.toFixed(2),
           volume: bchusdtwarp.tick.vol,
+          dot: 2,
           cny: (bchusdtwarp.tick.close * this.coinUnits.usdtcny).toFixed(2),
           rate: -(
             ((bchusdtwarp.tick.open - bchusdtwarp.tick.close) /
@@ -270,6 +270,8 @@ export default {
           low: btcusdtwarp.tick.low.toFixed(2),
           close: btcusdtwarp.tick.close.toFixed(2),
           volume: btcusdtwarp.tick.vol,
+          dot: 2,
+
           cny: (btcusdtwarp.tick.close * this.coinUnits.usdtcny).toFixed(2),
           rate: -(
             ((btcusdtwarp.tick.open - btcusdtwarp.tick.close) /
@@ -285,8 +287,9 @@ export default {
           open: eosusdtwarp.tick.open.toFixed(2),
           high: eosusdtwarp.tick.high.toFixed(2),
           low: eosusdtwarp.tick.low.toFixed(2),
-          close: eosusdtwarp.tick.close.toFixed(2),
+          close: eosusdtwarp.tick.close.toFixed(4),
           volume: eosusdtwarp.tick.vol,
+          dot: 4,
           cny: (eosusdtwarp.tick.close * this.coinUnits.usdtcny).toFixed(2),
           rate: -(
             ((eosusdtwarp.tick.open - eosusdtwarp.tick.close) /
@@ -302,8 +305,9 @@ export default {
           open: etcusdtwarp.tick.open.toFixed(2),
           high: etcusdtwarp.tick.high.toFixed(2),
           low: etcusdtwarp.tick.low.toFixed(2),
-          close: etcusdtwarp.tick.close.toFixed(2),
+          close: etcusdtwarp.tick.close.toFixed(4),
           volume: etcusdtwarp.tick.vol,
+          dot: 4,
           cny: (etcusdtwarp.tick.close * this.coinUnits.usdtcny).toFixed(2),
           rate: -(
             ((etcusdtwarp.tick.open - etcusdtwarp.tick.close) /
@@ -321,6 +325,8 @@ export default {
           low: ethusdtwarp.tick.low.toFixed(2),
           close: ethusdtwarp.tick.close.toFixed(2),
           volume: ethusdtwarp.tick.vol,
+          dot: 2,
+
           cny: (ethusdtwarp.tick.close * this.coinUnits.usdtcny).toFixed(2),
           rate: -(
             ((ethusdtwarp.tick.open - ethusdtwarp.tick.close) /
@@ -338,6 +344,7 @@ export default {
           low: ltcusdtwarp.tick.low.toFixed(2),
           close: ltcusdtwarp.tick.close.toFixed(2),
           volume: ltcusdtwarp.tick.vol,
+          dot: 2,
           cny: (ltcusdtwarp.tick.close * this.coinUnits.usdtcny).toFixed(2),
           rate: -(
             ((ltcusdtwarp.tick.open - ltcusdtwarp.tick.close) /
@@ -350,10 +357,11 @@ export default {
         let obj8 = {
           cion: 'xrpusdt',
           time: xrpusdtwarp.ts,
+          dot: 5,
           open: xrpusdtwarp.tick.open.toFixed(2),
           high: xrpusdtwarp.tick.high.toFixed(2),
           low: xrpusdtwarp.tick.low.toFixed(2),
-          close: xrpusdtwarp.tick.close.toFixed(2),
+          close: xrpusdtwarp.tick.close.toFixed(5),
           volume: xrpusdtwarp.tick.vol,
           cny: (xrpusdtwarp.tick.close * this.coinUnits.usdtcny).toFixed(2),
           rate: -(

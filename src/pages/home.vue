@@ -148,7 +148,7 @@ export default {
         open: eosusdtwarp.tick.open.toFixed(2),
         high: eosusdtwarp.tick.high.toFixed(2),
         low: eosusdtwarp.tick.low.toFixed(2),
-        close: eosusdtwarp.tick.close.toFixed(2),
+        close: eosusdtwarp.tick.close.toFixed(4),
         volume: eosusdtwarp.tick.vol,
         cny: (eosusdtwarp.tick.close * this.coinUnits.usdtcny).toFixed(2),
         rate: -(
@@ -166,7 +166,7 @@ export default {
         open: etcusdtwarp.tick.open.toFixed(2),
         high: etcusdtwarp.tick.high.toFixed(2),
         low: etcusdtwarp.tick.low.toFixed(2),
-        close: etcusdtwarp.tick.close.toFixed(2),
+        close: etcusdtwarp.tick.close.toFixed(4),
         volume: etcusdtwarp.tick.vol,
         cny: (etcusdtwarp.tick.close * this.coinUnits.usdtcny).toFixed(2),
         rate: -(
@@ -220,7 +220,7 @@ export default {
         open: xrpusdtwarp.tick.open.toFixed(2),
         high: xrpusdtwarp.tick.high.toFixed(2),
         low: xrpusdtwarp.tick.low.toFixed(2),
-        close: xrpusdtwarp.tick.close.toFixed(2),
+        close: xrpusdtwarp.tick.close.toFixed(5),
         volume: xrpusdtwarp.tick.vol,
         cny: (xrpusdtwarp.tick.close * this.coinUnits.usdtcny).toFixed(2),
         rate: -(

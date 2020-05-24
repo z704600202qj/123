@@ -46,20 +46,20 @@
           <div>价格(USDT)</div>
           <div>数量(张)</div>
         </div>
-        <div class="price-num" v-for="(item,index) in bids" :key="item+index">
-          <div class="price">{{item[0]}}</div>
+        <div class="price-num" v-for="(item,index) in asks" :key="item+index">
+          <div class="price" style="color:rgba(252, 73, 72, 1)">{{item[0]}}</div>
           <div class="num">{{item[1]}}</div>
         </div>
         <div
           v-if="bids.length>0"
           class="current-price"
-          :style="{'color':bchusdtData.rate>=0?'rgba(30, 192, 134, 1)':'red'}"
+          :style="{'color':color?'rgba(30, 192, 134, 1)':'red'}"
         >
           {{bchusdtData.close}}
-          <img v-if="bchusdtData.rate>=0" src="../../assets/image/up.png" alt />
+          <img v-if="color" src="../../assets/image/up.png" alt />
           <img v-else src="../../assets/image/down.png" alt />
         </div>
-        <div class="price-num" v-for="(item,index) in asks" :key="item+index">
+        <div class="price-num" v-for="(item,index) in bids" :key="item+index">
           <div class="price">{{item[0]}}</div>
           <div class="num">{{item[1]}}</div>
         </div>
@@ -80,7 +80,8 @@ export default {
       bchusdtData: {},
       selectType: '',
       asks: [],
-      bids: []
+      bids: [],
+      color: true
     }
   },
   watch: {
@@ -94,6 +95,7 @@ export default {
           }
         })
         let e = arr[0]
+        this.color = e.close > this.bchusdtData.close
         this.bchusdtData = e
         let arr2 = JSON.parse(JSON.stringify(e.depth.tick.bids))
         let arr3 = JSON.parse(JSON.stringify(e.depth.tick.asks))
@@ -103,9 +105,18 @@ export default {
         arr3 = arr3.sort(function (a, b) {
           return b[0] * 100 - a[0] * 100
         })
-        arr2.length = 5
-
-        arr3.length = 5
+        let a3 = arr3.filter((item) => {
+          if (item[0] >= Number(this.bchusdtData.close)) {
+            return item
+          }
+        })
+        let a2 = arr2.filter((item) => {
+          if (item[0] <= Number(this.bchusdtData.close)) {
+            return item
+          }
+        })
+        a2.length = 5
+        a3.length = 5
 
         let obj = {
           EOS: 4,
@@ -113,15 +124,15 @@ export default {
           BSV: 4,
           XRP: 5
         }
-        this.bids = arr2.map(item => {
+        this.bids = a2.map(item => {
           return [
-            item[0].toFixed(2),
+            item[0].toFixed(e.dot || 2),
             item[1].toFixed(obj[this.selectType] || 2)
           ]
         })
-        this.asks = arr3.map(item => {
+        this.asks = a3.map(item => {
           return [
-            item[0].toFixed(2),
+            item[0].toFixed(e.dot || 2),
             item[1].toFixed(obj[this.selectType] || 2)
           ]
         })
