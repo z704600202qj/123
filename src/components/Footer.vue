@@ -12,7 +12,8 @@
       <div class="title">关于</div>
       <router-link class="item-line" to="/about" tag="div">关于我们</router-link>
       <div class="item-line" @click="goto">联系我们</div>
-
+      <router-link class="item-line" to="/law" tag="div">法律声明</router-link>
+      <router-link class="item-line" to="/money" tag="div">关于反洗钱</router-link>
     </div>
     <div class="item">
       <div class="title">帮助</div>

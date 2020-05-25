@@ -88,7 +88,7 @@ export default {
     return {
       baseurl:
         window.location.host === 'https://colaex.pro'
-          ? 'https://colaex.pro/img/'
+          ? 'https://www.colaex.pro/img/'
           : 'http://eva7base.com:88/test/',
       type: ['微信', '支付宝', '银行卡'],
       status: ['交易中', '用户取消', '用户确认', '商家已确认'],

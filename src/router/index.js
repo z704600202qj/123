@@ -19,6 +19,8 @@ import about from '@/pages/about'
 import newhelp from '@/pages/newhelp'
 import forget from '@/pages/forget'
 import register from '@/pages/register'
+import law from '@/pages/law'
+import money from '@/pages/money'
 
 Vue.use(Router)
 
@@ -109,6 +111,17 @@ let router = new Router({
       path: '/newhelp',
       name: 'newhelp',
       component: newhelp
+    },
+    {
+      path: '/law',
+      name: 'law',
+      component: law
+    },
+    {
+
+      path: '/money',
+      name: 'money',
+      component: money
     }
   ]
 })

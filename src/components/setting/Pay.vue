@@ -60,7 +60,7 @@ export default {
     return {
       baseurl:
         window.location.host === 'https://colaex.pro'
-          ? 'https://colaex.pro/img/'
+          ? 'https://www.colaex.pro/img/'
           : 'http://eva7base.com:88/test/',
       imageUrl: '',
       selected: 2,

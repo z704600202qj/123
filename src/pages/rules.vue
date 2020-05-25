@@ -7,6 +7,6 @@
 img{
     display: block;
     margin: 30px auto;
-    width: 70%;
+    width: 740px;
 }
 </style>

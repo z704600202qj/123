@@ -6,7 +6,7 @@
 <style scoped>
 img{
     display: block;
-    margin: 30px auto;
-    width: 70%;
+    margin: 30px auto 200px;
+    width: 740px;
 }
 </style>
