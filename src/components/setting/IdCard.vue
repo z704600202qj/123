@@ -77,7 +77,7 @@ export default {
   data () {
     return {
       baseurl:
-        window.location.host === 'https://colaex.pro'
+        window.location.host === 'www.colaex.pro'
           ? 'https://www.colaex.pro/img/'
           : 'http://eva7base.com:88/test/',
       name: '',
